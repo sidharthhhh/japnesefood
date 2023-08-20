@@ -25,26 +25,25 @@ jobs:
           paths:
             - dist
 
-deploy:
+  deploy_to_vercel:
     docker:
       - image: node:latest
     steps:
       - attach_workspace:
           at: /tmp/workspace
       - run:
-          name: Deploy to Vercel
+          name: japnesefood
           command: |
             npm install -g vercel
-            vercel login # Simply use 'vercel login'
+            vercel login # Use 'vercel login' without a token
             cd /tmp/workspace
             vercel --prod dist --yes
-
 
 workflows:
   version: 2
   build_and_deploy:
     jobs:
       - build_and_deploy
-      - deploy:
+      - deploy_to_vercel:
           requires:
             - build_and_deploy
