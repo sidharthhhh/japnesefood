@@ -25,7 +25,7 @@ jobs:
           paths:
             - dist
 
-  deploy:
+deploy:
     docker:
       - image: node:latest
     steps:
@@ -35,9 +35,10 @@ jobs:
           name: japnesefood
           command: |
             npm install -g vercel
-            echo $VERCEL_TOKEN | vercel login
+            echo UmVFeCjNWJJhawi601JyuAIM | vercel switch
             cd /tmp/workspace
-            vercel --prod dist --confirm
+            vercel --prod dist --yes # Use --yes instead of --confirm
+
 
 workflows:
   version: 2
