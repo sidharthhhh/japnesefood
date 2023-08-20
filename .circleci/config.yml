@@ -20,28 +20,6 @@ jobs:
       - run:
           name: Build
           command: npm run build
-      - persist_to_workspace:version: 2.1
-
-jobs:
-  build_and_deploy:
-    docker:
-      - image: node:latest
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-      - run:
-          name: Install Dependencies
-          command: npm install
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-      - run:
-          name: Build
-          command: npm run build
       - persist_to_workspace:
           root: .
           paths:
@@ -58,33 +36,6 @@ jobs:
           command: |
             npm install -g vercel
             echo $VERCEL_TOKEN | vercel login
-            cd /tmp/workspace
-            vercel --prod dist
-
-workflows:
-  version: 2
-  build_and_deploy:
-    jobs:
-      - build_and_deploy
-      - deploy:
-          requires:
-            - build_and_deploy
-
-          root: .
-          paths:
-            - dist
-
-  deploy:
-    docker:
-      - image: node:latest
-    steps:
-      - attach_workspace:
-          at: /tmp/workspace
-      - run:
-          name: japnesefood
-          command: |
-            npm install -g vercel
-            vercel login --token UmVFeCjNWJJhawi601JyuAIM
             cd /tmp/workspace
             vercel --prod dist --confirm
 
