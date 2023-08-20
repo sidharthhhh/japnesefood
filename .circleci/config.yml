@@ -17,7 +17,7 @@ jobs:
           name: Build
           command: npm run build 
       - persist_to_workspace:
-          root: /app
+          root: /app 
           paths:
             - dist
 
@@ -25,7 +25,7 @@ jobs:
     executor: node-executor
     steps:
       - attach_workspace:
-          at: /app
+          at: /app 
       - run:
           name: japnesefood
           command: |
