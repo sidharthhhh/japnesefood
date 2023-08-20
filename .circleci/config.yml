@@ -1,36 +1,42 @@
 version: 2.1
 
-executors:
-  node-executor:
-    docker:
-      - image: node:latest 
-
 jobs:
   build_and_deploy:
-    executor: node-executor
+    docker:
+      - image: node:latest
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
       - run:
           name: Install Dependencies
           command: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
       - run:
           name: Build
-          command: npm run build 
+          command: npm run build
       - persist_to_workspace:
-          root: /app 
+          root: .
           paths:
             - dist
 
   deploy:
-    executor: node-executor
+    docker:
+      - image: node:latest
     steps:
       - attach_workspace:
-          at: /app 
+          at: /tmp/workspace
       - run:
           name: japnesefood
           command: |
             npm install -g vercel
             vercel login --token UmVFeCjNWJJhawi601JyuAIM
+            cd /tmp/workspace
             vercel --prod dist --confirm
 
 workflows:
