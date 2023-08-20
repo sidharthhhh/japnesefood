@@ -34,7 +34,7 @@ jobs:
       - run:
           name: japnesefood
           command: |
-            render deploy --build-dir /tmp/workspace/dist
+            render deploy --build-dir /tmp/workspace/dist --token rnd_Nu8vRcsFG5DmGQ26TboGWIRUId2l
 
 workflows:
   version: 2
