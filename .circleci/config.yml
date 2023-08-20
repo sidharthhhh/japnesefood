@@ -25,7 +25,7 @@ jobs:
           paths:
             - dist
 
-deploy:
+  deploy:
     docker:
       - image: node:latest
     steps:
@@ -37,8 +37,7 @@ deploy:
             npm install -g vercel
             echo UmVFeCjNWJJhawi601JyuAIM | vercel switch
             cd /tmp/workspace
-            vercel --prod dist --yes # Use --yes instead of --confirm
-
+            vercel --prod dist --yes
 
 workflows:
   version: 2
