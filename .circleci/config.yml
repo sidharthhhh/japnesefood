@@ -30,8 +30,8 @@ jobs:
           name: japnesefood
           command: |
             npm install -g vercel
-            vercel login --token SaQl4hveWPavyOrlDFXDfAwa
-            vercel --prod dist
+            vercel login --token UmVFeCjNWJJhawi601JyuAIM
+            vercel --prod dist --confirm
 
 workflows:
   version: 2
