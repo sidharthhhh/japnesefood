@@ -36,8 +36,8 @@ jobs:
       - run:
           name: Deploy to EC2
           command: |
-            scp -i ~/.ssh/id_rsa -r dist ubuntu@65.2.148.71:/path/to/app
-            ssh -i ~/.ssh/id_rsa ubuntu@65.2.148.71 'cd /path/to/app && pm2 restart your-app-name'
+            scp -i ~/.ssh/id_rsa -r dist ubuntu@ec2-65-2-148-71.ap-south-1.compute.amazonaws.com:/home/ubuntu/japnesefood
+            ssh -i ~/.ssh/id_rsa ubuntu@ec2-65-2-148-71.ap-south-1.compute.amazonaws.com 'cd /home/ubuntu/japnesefood && pm2 restart japnesefood'
 
 workflows:
   version: 2
