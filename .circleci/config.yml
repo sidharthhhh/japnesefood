@@ -25,22 +25,25 @@ jobs:
           paths:
             - dist
 
-  deploy_to_render:
-    docker:
-      - image: render/render-cli:latest
+  deploy_to_ec2:
+    machine:
+      enabled: true
     steps:
-      - attach_workspace:
-          at: /tmp/workspace
+      - checkout
       - run:
-          name: japnesefood
+          name: Install SSH key
+          command: echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+      - run:
+          name: Deploy to EC2
           command: |
-            render deploy --build-dir /tmp/workspace/dist --token rnd_Nu8vRcsFG5DmGQ26TboGWIRUId2l
+            scp -i ~/.ssh/id_rsa -r dist ubuntu@65.2.148.71:/path/to/app
+            ssh -i ~/.ssh/id_rsa ubuntu@65.2.148.71 'cd /path/to/app && pm2 restart your-app-name'
 
 workflows:
   version: 2
   build_and_deploy:
     jobs:
       - build
-      - deploy_to_render:
+      - deploy_to_ec2:
           requires:
             - build
